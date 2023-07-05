@@ -11,6 +11,24 @@ board = [
 ]
 
 
+def solve(bo):
+    find = find_empty(bo)
+
+    if not find:
+        return True
+    else:
+        row, col = find
+
+    for i in range(1, 10):
+        if valid(bo, i, (row, col)):
+            bo[row][col] = i
+
+            if solve(bo):
+                return True
+            else:
+                bo[row][col] = 0
+
+
 def valid(bo, num, pos):
     # check row
     for i in range(len(bo[0])):
@@ -38,11 +56,11 @@ def valid(bo, num, pos):
 def print_board(bo):
     for i in range(len(bo)):
         if i % 3 == 0 and i != 0:
-            print("- - - - - - - - - - - - - -")
+            print("- - - - - - - - - - - - - - -")
 
         for j in range(len(bo[0])):
             if j % 3 == 0 and j != 0:
-                print("|", end="")
+                print("| ", end="")
 
             if j == 8:
                 print(bo[i][j])
@@ -55,3 +73,16 @@ def find_empty(bo):
         for j in range(len(bo[0])):
             if bo[i][j] == 0:
                 return i, j  # row, col
+    return None
+
+
+print("______________________")
+print("ORIGINAL SUDOKU BOARD")
+print("______________________")
+print_board(board)
+solve(board)
+
+print("______________________")
+print("SOLVED SUDOKU BOARD")
+print("______________________")
+print_board(board)
